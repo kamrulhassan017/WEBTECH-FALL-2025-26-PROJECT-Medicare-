@@ -18,10 +18,19 @@ session_start();
             <a href="contact.php">Contact</a>
             
             <?php if(isset($_SESSION['user_id'])): ?>
-                <a href="user_dashboard.php">Dashboard</a>
+                
+                <?php 
+                    if ($_SESSION['role'] == 'admin') {
+                        echo '<a href="admin_dashboard.php">Admin Dashboard</a>';
+                    } else {
+                        echo '<a href="user_dashboard.php">Dashboard</a>';
+                    }
+                ?>
+                
                 <a href="logout.php" class="btn-login" style="color: red;">Logout</a>
+            
             <?php else: ?>
-                <a href="user_dashboard.php" style="opacity:0.6;">Dashboard</a>
+                <a href="login.php" style="opacity:0.6;">Dashboard</a>
                 <a href="login.php" class="btn-login">Login / Sign up</a>
             <?php endif; ?>
         </div>

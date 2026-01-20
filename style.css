@@ -1,3 +1,8 @@
+/* --- Global Reset & Box Sizing --- */
+* {
+    box-sizing: border-box;
+}
+
 /* General Body Styles */
 body {
     margin: 0;
@@ -144,9 +149,10 @@ body {
     border-top: 1px solid #ffeeba;
     font-size: 14px;
 }
+
 /* --- Login Page Styles --- */
 
-/* The Blue Button (Matches your screenshot) */
+/* The Blue Button */
 .btn-login-submit {
     width: 100%;
     padding: 12px;
@@ -169,13 +175,15 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: calc(100vh - 80px); /* Full height minus navbar */
+    min-height: calc(100vh - 80px); /* Changed height to min-height */
+    padding: 20px;
 }
 
 .login-box {
     background: white;
     padding: 40px 50px;
-    width: 400px;
+    width: 100%;        /* Fluid width */
+    max-width: 400px;   /* Cap width at 400px */
     border-radius: 8px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.05);
     text-align: center;
@@ -211,7 +219,6 @@ body {
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 4px;
-    box-sizing: border-box; /* Ensures padding doesn't break width */
     font-size: 14px;
 }
 
@@ -228,16 +235,20 @@ body {
 
 .links a:hover {
     text-decoration: underline;
-}/* --- Registration Page Styles --- */
+}
 
-/* Row for Side-by-Side inputs (Blood Group & Gender) */
+/* --- Registration Page Styles --- */
+
+/* Row for Side-by-Side inputs */
 .form-row {
     display: flex;
-    gap: 15px; /* Space between the two inputs */
+    gap: 15px;
+    flex-wrap: wrap; /* Allows wrapping on small screens */
 }
 
 .col-half {
-    width: 50%;
+    flex: 1; /* Better than width 50% for responsiveness */
+    min-width: 120px;
 }
 
 /* Textarea for Medical History */
@@ -246,24 +257,26 @@ textarea {
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 4px;
-    box-sizing: border-box;
-    font-family: inherit; /* Ensures font matches the rest */
-    resize: vertical; /* Allows user to resize height only */
+    font-family: inherit;
+    resize: vertical;
 }
 
-/* Adjust the box height for registration since it has more fields */
+/* Registration Box */
 .register-box {
     background: white;
     padding: 40px 50px;
-    width: 450px; /* Slightly wider than login */
+    width: 100%;
+    max-width: 450px; /* Cap width */
     border-radius: 8px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.05);
     text-align: center;
-    margin: 30px auto; /* Centers it nicely */
-}/* --- Dashboard & Sidebar Layout --- */
+    margin: 30px auto;
+}
+
+/* --- Dashboard & Sidebar Layout --- */
 .dashboard-container {
     display: flex;
-    height: calc(100vh - 60px); /* Full height minus navbar */
+    height: calc(100vh - 60px);
 }
 
 /* Sidebar Styling */
@@ -272,6 +285,7 @@ textarea {
     background: white;
     border-right: 1px solid #e1e1e1;
     padding-top: 20px;
+    flex-shrink: 0; /* Prevents sidebar from squishing */
 }
 
 .sidebar a {
@@ -282,7 +296,7 @@ textarea {
     text-decoration: none;
     font-size: 15px;
     transition: 0.2s;
-    border-left: 4px solid transparent; /* Hidden border for hover effect */
+    border-left: 4px solid transparent;
 }
 
 .sidebar a:hover {
@@ -293,12 +307,12 @@ textarea {
 .sidebar a.active {
     background-color: #e3f2fd;
     color: #007bff;
-    border-left: 4px solid #007bff; /* Blue active border */
+    border-left: 4px solid #007bff;
     font-weight: 500;
 }
 
 .sidebar i {
-    width: 25px; /* Fixed width for icons alignment */
+    width: 25px;
 }
 
 /* Main Content Area */
@@ -314,15 +328,17 @@ textarea {
     display: flex;
     gap: 30px;
     margin-bottom: 40px;
+    flex-wrap: wrap; /* Allows cards to wrap */
 }
 
 .stat-card {
     flex: 1;
+    min-width: 200px; /* Minimum width before wrapping */
     background: white;
     padding: 25px;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.03);
-    border-left: 4px solid #007bff; /* The blue left border */
+    border-left: 4px solid #007bff;
 }
 
 .stat-card h3 {
@@ -346,12 +362,13 @@ textarea {
     background: white;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.03);
-    overflow: hidden; /* Clips corners */
+    overflow-x: auto; /* Adds scrollbar for small screens */
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
+    min-width: 600px; /* Ensures table doesn't get too squished */
 }
 
 th {
@@ -381,14 +398,16 @@ td {
 
 .badge-Confirmed { background-color: #d4edda; color: #155724; }
 .badge-Pending { background-color: #fff3cd; color: #856404; }
-.badge-View { background-color: #e2e6ea; color: #383d41; }/* --- Emergency Page Styles --- */
+.badge-View { background-color: #e2e6ea; color: #383d41; }
+
+/* --- Emergency Page Styles --- */
 
 /* The Red Background Section */
 .emergency-hero {
-    background-color: #dc3545; /* The Red Color */
+    background-color: #dc3545;
     color: white;
     text-align: center;
-    padding: 60px 20px 100px; /* Extra padding at bottom for the form overlap */
+    padding: 60px 20px 100px;
 }
 
 .emergency-hero h1 {
@@ -416,7 +435,7 @@ td {
     padding: 15px 40px;
     font-size: 24px;
     font-weight: bold;
-    border-radius: 50px; /* Pill shape */
+    border-radius: 50px;
     text-decoration: none;
     display: inline-block;
     box-shadow: 0 4px 10px rgba(0,0,0,0.2);
@@ -424,19 +443,20 @@ td {
 }
 
 .btn-call-now:hover {
-    transform: scale(1.05); /* Slight zoom on hover */
+    transform: scale(1.05);
 }
 
-/* The Form Container (White Box) */
+/* The Form Container */
 .emergency-form-container {
     max-width: 600px;
-    margin: -60px auto 50px; /* Negative margin pulls it up into the red section */
+    margin: -60px auto 50px;
     background: white;
     border-radius: 8px;
     box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-    padding: 0; /* Padding handled inside inner divs */
+    padding: 0;
     overflow: hidden;
-    border-top: 5px solid #c82333; /* Darker red border on top */
+    border-top: 5px solid #c82333;
+    width: 90%; /* Responsive width */
 }
 
 .form-header {
@@ -471,7 +491,9 @@ td {
 
 .btn-emergency-submit:hover {
     background-color: #c82333;
-}/* --- Book Appointment Page Styles --- */
+}
+
+/* --- Book Appointment Page Styles --- */
 
 /* Search & Filter Section */
 .search-section {
@@ -480,10 +502,12 @@ td {
     display: flex;
     gap: 20px;
     border-bottom: 1px solid #eee;
+    flex-wrap: wrap; /* Allow wrapping on mobile */
 }
 
 .search-input {
-    flex: 2; /* Takes up more space */
+    flex: 2;
+    min-width: 200px;
     padding: 10px 15px;
     border: 1px solid #ddd;
     border-radius: 4px;
@@ -492,6 +516,7 @@ td {
 
 .filter-select {
     flex: 1;
+    min-width: 150px;
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 4px;
@@ -505,7 +530,7 @@ td {
     flex-wrap: wrap;
     gap: 30px;
     padding: 40px;
-    justify-content: center; /* Centers items if there are few */
+    justify-content: center;
 }
 
 /* Individual Doctor Card */
@@ -514,7 +539,7 @@ td {
     width: 300px;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    overflow: hidden; /* Clips content inside corners */
+    overflow: hidden;
     text-align: center;
     border: 1px solid #f0f0f0;
     transition: transform 0.2s;
@@ -535,7 +560,7 @@ td {
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    border: 1px solid #007bff; /* Thin blue border */
+    border: 1px solid #007bff;
     color: #007bff;
     display: flex;
     align-items: center;
@@ -590,4 +615,64 @@ td {
 
 .btn-book-card:hover {
     background: #0056b3;
+}
+
+/* --- Admin Action Buttons --- */
+
+.btn-action {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+    transition: background 0.2s;
+    border: none;
+    cursor: pointer;
+}
+
+/* Green Approve Button */
+.btn-approve {
+    background-color: #28a745;
+}
+.btn-approve:hover {
+    background-color: #218838;
+}
+
+/* Red Cancel Button */
+.btn-cancel {
+    background-color: #dc3545;
+}
+.btn-cancel:hover {
+    background-color: #c82333;
+}
+
+/* Disabled/Completed State */
+.status-text {
+    font-size: 13px;
+    font-weight: bold;
+    color: #666;
+}
+
+/* --- Patients List Styles --- */
+
+/* Blood Group Badge */
+.badge-blood {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 12px;
+    display: inline-block;
+}
+
+/* Delete Button Specifics */
+.btn-delete {
+    background-color: #dc3545;
+    color: white;
+}
+.btn-delete:hover {
+    background-color: #c82333;
 }
