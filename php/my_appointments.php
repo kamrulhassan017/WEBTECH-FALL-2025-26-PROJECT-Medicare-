@@ -47,13 +47,8 @@ $res = mysqli_query($conn, $sql);
 <html>
 <head>
     <title>My Appointments - Medicare</title>
-
-    <!-- existing project CSS -->
-    <link rel="stylesheet" href="style.css">
-
-    <!-- page CSS -->
-    <link rel="stylesheet" href="my_appointments.css">
-
+    <link rel="stylesheet" href="../css/my_appointments.css">
+    <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
