@@ -1,0 +1,96 @@
+/* ==booking_success.css== */
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f7f6;
+}
+
+/* Success page container */
+.success-container {
+    min-height: calc(100vh - 80px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* Card */
+.success-card {
+    background: #ffffff;
+    padding: 40px 35px;
+    border-radius: 12px;
+    text-align: center;
+    max-width: 420px;
+    width: 100%;
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08);
+}
+
+/* Check icon circle */
+.check-icon-circle {
+    width: 80px;
+    height: 80px;
+    background: #28a745;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+}
+
+.check-icon-circle i {
+    color: white;
+    font-size: 36px;
+}
+
+/* Headings */
+.success-card h2 {
+    margin: 10px 0;
+    color: #333;
+    font-size: 26px;
+}
+
+.success-card p {
+    color: #666;
+    font-size: 15px;
+    line-height: 1.5;
+    margin-bottom: 25px;
+}
+
+/* Buttons */
+.success-card .btn-login-submit {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background: #007bff;
+    color: white;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: bold;
+    text-decoration: none;
+    margin-bottom: 12px;
+    transition: background 0.2s;
+}
+
+.success-card .btn-login-submit:hover {
+    background: #0056b3;
+}
+
+/* Outline button */
+.btn-outline {
+    display: block;
+    width: 100%;
+    padding: 11px;
+    border: 2px solid #007bff;
+    border-radius: 6px;
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+    transition: all 0.2s;
+}
+
+.btn-outline:hover {
+    background: #007bff;
+    color: white;
+}
