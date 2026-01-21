@@ -76,7 +76,6 @@ The purpose of this project is to provide an online platform where patients can 
 - **Backend:** PHP  
 - **Database:** MySQL  
 - **Server:** Apache (XAMPP)  
-
 ---
 
 ## 📂 Project Setup & Installation
