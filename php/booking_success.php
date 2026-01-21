@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html>
 <head>
     <title>Booking Confirmed - Medicare</title>
-    <link rel="stylesheet" href="../css/booking_success.css">
+    <link rel="stylesheet" href="../css/booking_success.csss">
       <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
