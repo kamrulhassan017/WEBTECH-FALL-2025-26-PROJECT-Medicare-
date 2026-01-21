@@ -1,0 +1,105 @@
+.nav-title {
+    color: white;
+    font-weight: 500;
+}
+
+.nav-title i {
+    margin-left: 5px;
+}
+
+.nav-logout {
+    margin-left: 20px;
+    color: white;
+    opacity: 0.9;
+    text-decoration: none;
+}
+
+.nav-logout:hover {
+    opacity: 1;
+}
+
+
+.danger-link {
+    color: #dc3545 !important;
+}
+
+
+.page-title {
+    margin-top: 0;
+    color: #333;
+}
+
+.page-subtitle {
+    color: #666;
+}
+
+
+.filter-card {
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #eee;
+}
+
+.filter-form {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: end;
+}
+
+.filter-group {
+    min-width: 220px;
+}
+
+.filter-group label {
+    display: block;
+    margin-bottom: 6px;
+    color: #444;
+}
+
+.filter-group select,
+.filter-group input[type="date"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}
+
+
+.filter-btn {
+    height: 42px;
+}
+
+.reset-btn {
+    height: 42px;
+    display: inline-flex;
+    align-items: center;
+    padding: 0 14px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #333;
+    background: #f8f9fa;
+}
+
+.reset-btn:hover {
+    background: #f1f3f5;
+}
+
+
+.cancel-link {
+    color: #dc3545;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.cancel-link:hover {
+    text-decoration: underline;
+}
+
+.empty-row {
+    text-align: center;
+    padding: 20px;
+}

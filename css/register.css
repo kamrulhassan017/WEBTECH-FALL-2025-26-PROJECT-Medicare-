@@ -1,0 +1,22 @@
+/* === register.css === */
+.register-container { display: flex; justify-content: center; align-items: center; min-height: calc(100vh - 80px); padding: 30px 20px; }
+.register-box {
+    background: white; padding: 40px 50px; width: 100%; max-width: 500px;
+    border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); text-align: center;
+}
+.register-box h2 { margin: 0 0 10px 0; color: #333; }
+
+.form-group { text-align: left; margin-bottom: 15px; }
+.form-group label { display: block; font-weight: bold; font-size: 14px; color: #333; margin-bottom: 5px; }
+.form-group input, select, textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; background: white; }
+.form-row { display: flex; gap: 15px; flex-wrap: wrap; }
+.col-half { flex: 1; min-width: 120px; }
+
+.btn-register-submit {
+    width: 100%; padding: 12px; background: #28a745; color: white;
+    border: none; border-radius: 4px; font-size: 16px; font-weight: bold;
+    cursor: pointer; margin-top: 20px; transition: background 0.2s;
+}
+.btn-register-submit:hover { background: #218838; }
+.links { margin-top: 20px; font-size: 14px; }
+.links a { color: #007bff; text-decoration: none; }
