@@ -25,7 +25,8 @@ if (isset($_POST['send_message'])) {
 <html>
 <head>
     <title>Contact Us - Medicare</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/contact.css">
 </head>
 <body>
 
