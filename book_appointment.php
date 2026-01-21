@@ -2,32 +2,32 @@
 session_start();
 include 'db_connect.php';
 
-// Check login
+// 1. Security: Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit();
 }
 
-// Handle Search & Filter Logic
+// 2. Handle Search & Filter
 $search_query = "";
 $filter_query = "";
 $sql_conditions = [];
 
-// If user typed in search box
+// Search by Name
 if (isset($_GET['search']) && !empty($_GET['search'])) {
     $search = mysqli_real_escape_string($conn, $_GET['search']);
     $sql_conditions[] = "name LIKE '%$search%'";
     $search_query = $_GET['search'];
 }
 
-// If user selected a specialist
+// Filter by Specialty
 if (isset($_GET['specialty']) && !empty($_GET['specialty']) && $_GET['specialty'] != 'All') {
     $spec = mysqli_real_escape_string($conn, $_GET['specialty']);
     $sql_conditions[] = "specialty = '$spec'";
     $filter_query = $_GET['specialty'];
 }
 
-// Construct Final SQL
+// Build SQL Query
 $sql = "SELECT * FROM doctors";
 if (count($sql_conditions) > 0) {
     $sql .= " WHERE " . implode(' AND ', $sql_conditions);
@@ -35,21 +35,26 @@ if (count($sql_conditions) > 0) {
 $result = mysqli_query($conn, $sql);
 
 
-// Handle Booking Action (When user clicks Book)
+// 3. Handle Booking Logic
 if (isset($_POST['confirm_booking'])) {
     $user_id = $_SESSION['user_id'];
     $doctor_id = $_POST['doc_id'];
-    // Defaulting to tomorrow's date for simplicity, 
-    // or you can add a date picker in a popup. 
-    // For this design, let's just insert pending status.
+    
+    // Auto-schedule for "Tomorrow at 10 AM" (You can change this logic later)
     $appt_date = date('Y-m-d', strtotime('+1 day')); 
-    $appt_time = "10:00 AM"; // Default time
+    $appt_time = "10:00 AM"; 
 
     $book_sql = "INSERT INTO appointments (user_id, doctor_id, appt_date, appt_time, status) 
                  VALUES ('$user_id', '$doctor_id', '$appt_date', '$appt_time', 'Pending')";
     
     if(mysqli_query($conn, $book_sql)) {
-        echo "<script>alert('Appointment Requested Successfully!'); window.location='my_appointments.php';</script>";
+        // Javascript Alert + Redirect
+        echo "<script>
+                alert('Success! Your appointment is pending approval.');
+                window.location='my_appointments.php';
+              </script>";
+    } else {
+        echo "<script>alert('Error booking appointment.');</script>";
     }
 }
 ?>
@@ -61,20 +66,22 @@ if (isset($_POST['confirm_booking'])) {
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body style="background-color: #f8f9fa;">
+<body>
 
     <div class="navbar">
         <a href="index.php" class="logo">MEDICARE</a>
         <div class="menu">
-            <a href="user_dashboard.php" style="color:white; opacity:0.8; margin-right:20px;">Dashboard</a>
-            <a href="logout.php" style="color:white;">Logout</a>
+            <a href="user_dashboard.php">Dashboard</a>
+            <a href="logout.php" class="btn-login" style="background:transparent; border:1px solid white; color:white;">Logout</a>
         </div>
     </div>
 
     <form method="GET" class="search-section">
-        <i class="fa fa-search" style="position: absolute; padding: 12px; color: #999;"></i>
-        <input type="text" name="search" class="search-input" style="padding-left: 35px;" 
-               placeholder="Search doctor name..." value="<?php echo $search_query; ?>">
+        <div style="flex: 2; position: relative;">
+            <i class="fa fa-search" style="position: absolute; left: 10px; top: 12px; color: #999;"></i>
+            <input type="text" name="search" class="search-input" style="padding-left: 35px; width: 100%;" 
+                   placeholder="Search doctor name..." value="<?php echo $search_query; ?>">
+        </div>
         
         <select name="specialty" class="filter-select" onchange="this.form.submit()">
             <option value="All">All Specialists</option>
@@ -85,7 +92,7 @@ if (isset($_POST['confirm_booking'])) {
         </select>
     </form>
 
-    <h2 style="padding: 0 40px; margin-top: 30px; color: #333;">Available Doctors</h2>
+    <h2 style="text-align:center; margin-top: 30px; color: #333;">Available Doctors</h2>
 
     <div class="doctor-grid">
         
@@ -108,13 +115,13 @@ if (isset($_POST['confirm_booking'])) {
                     </div>
 
                     <div class="fee-badge">
-                        Fee: <?php echo $row['fee']; ?> BDT
+                        Fee: $<?php echo $row['fee']; ?>
                     </div>
                 </div>
 
                 <form method="POST">
                     <input type="hidden" name="doc_id" value="<?php echo $row['id']; ?>">
-                    <button type="submit" name="confirm_booking" class="btn-book-card">
+                    <button type="submit" name="confirm_booking" class="btn-book-card" onclick="return confirm('Confirm booking with <?php echo $row['name']; ?>?');">
                         Book Appointment
                     </button>
                 </form>
@@ -122,7 +129,7 @@ if (isset($_POST['confirm_booking'])) {
         <?php 
             }
         } else {
-            echo "<p style='color:#777; text-align:center; width:100%;'>No doctors found matching your criteria.</p>";
+            echo "<p style='color:#777; width:100%; text-align:center; margin-top:20px;'>No doctors found matching your criteria.</p>";
         }
         ?>
 

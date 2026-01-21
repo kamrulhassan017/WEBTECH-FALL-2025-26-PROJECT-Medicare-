@@ -2,29 +2,33 @@
 session_start();
 include 'db_connect.php';
 
-// 1. Security Check: Ensure user is Admin
+// 1. Security Check
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     header("Location: login.php");
     exit();
 }
 
-// 2. Handle Delete Patient
+// 2. Handle Delete
 if (isset($_GET['delete_id'])) {
     $id = $_GET['delete_id'];
-    
-    // Delete the user
-    $delete_sql = "DELETE FROM users WHERE id=$id";
-    if (mysqli_query($conn, $delete_sql)) {
-        header("Location: admin_patients.php");
-        exit();
-    }
+    mysqli_query($conn, "DELETE FROM users WHERE id=$id");
+    header("Location: admin_patients.php");
+    exit();
+}
+
+// Helper Function to Calculate Age
+function getAge($dob) {
+    if(!$dob) return "N/A";
+    $bday = new DateTime($dob);
+    $today = new DateTime('today');
+    return $bday->diff($today)->y . " Years";
 }
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Patients List - Admin</title>
+    <title>Patients Management - Medicare</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -48,58 +52,63 @@ if (isset($_GET['delete_id'])) {
         </div>
 
         <div class="main-content">
-            <h2>Registered Patients</h2>
+            
+            <div class="header-flex">
+                <h2 style="margin:0;">Registered Patients</h2>
+                <a href="admin_patient_form.php" class="btn-add-new">
+                    <i class="fa fa-plus-circle"></i> Add New Patient
+                </a>
+            </div>
 
             <div class="table-container">
                 <table>
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Patient Info</th>
-                            <th>Contact</th>
+                            <th>Patient Name</th>
+                            <th>Contact Info</th>
+                            <th>Age / Gender</th>
                             <th>Blood Group</th>
-                            <th>Date of Birth</th>
-                            <th>Action</th>
+                            <th style="text-align:center;">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
-                        // Fetch only normal users
                         $sql = "SELECT * FROM users WHERE role='user' ORDER BY id DESC";
                         $result = mysqli_query($conn, $sql);
 
                         if (mysqli_num_rows($result) > 0) {
                             while ($row = mysqli_fetch_assoc($result)) {
+                                $age = getAge($row['dob']);
                                 echo "<tr>";
                                 
-                                // ID
-                                echo "<td>#{$row['id']}</td>";
-                                
-                                // Name & Gender (Uses .text-muted)
+                                // Name
                                 echo "<td>
                                         <strong>{$row['full_name']}</strong><br>
-                                        <small class='text-muted'>{$row['gender']}</small>
+                                        <small class='text-muted'>ID: #{$row['id']}</small>
                                       </td>";
                                 
-                                // Phone
-                                echo "<td>{$row['phone']}</td>";
+                                // Contact
+                                echo "<td><i class='fa fa-phone' style='font-size:12px; color:#888;'></i> {$row['phone']}</td>";
                                 
-                                // Blood Group (Uses .badge-blood)
+                                // Age & Gender
+                                echo "<td>$age <br> <small class='text-muted'>{$row['gender']}</small></td>";
+                                
+                                // Blood Group
                                 echo "<td>";
                                 if(!empty($row['blood_group'])) {
                                     echo "<span class='badge-blood'>{$row['blood_group']}</span>";
                                 } else {
-                                    echo "-";
+                                    echo "<span class='text-muted'>-</span>";
                                 }
                                 echo "</td>";
                                 
-                                // DOB
-                                echo "<td>{$row['dob']}</td>";
-                                
-                                // Delete Button
-                                echo "<td>
+                                // Actions (Edit & Delete)
+                                echo "<td style='text-align:center;'>
+                                        <a href='admin_patient_form.php?id={$row['id']}' class='btn-action btn-edit'>
+                                            <i class='fa fa-edit'></i> Edit
+                                        </a>
                                         <a href='admin_patients.php?delete_id={$row['id']}' 
-                                           onclick='return confirm(\"Are you sure? This will delete their appointment history too.\")'
+                                           onclick='return confirm(\"Permanently delete this patient?\")'
                                            class='btn-action btn-delete'>
                                            <i class='fa fa-trash'></i> Delete
                                         </a>
@@ -107,8 +116,7 @@ if (isset($_GET['delete_id'])) {
                                 echo "</tr>";
                             }
                         } else {
-                            // Uses .empty-table-msg
-                            echo "<tr><td colspan='6' class='empty-table-msg'>No registered patients found.</td></tr>";
+                            echo "<tr><td colspan='5' class='empty-table-msg'>No patients found. Click 'Add New' to create one.</td></tr>";
                         }
                         ?>
                     </tbody>

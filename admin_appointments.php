@@ -1,92 +1,125 @@
+<?php
+session_start();
+include 'db_connect.php';
+
+// 1. Security Check
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+    header("Location: login.php");
+    exit();
+}
+
+// 2. Handle Actions
+if (isset($_GET['action']) && isset($_GET['id'])) {
+    $id = $_GET['id'];
+    $status = $_GET['action'];
+
+    $update_sql = "UPDATE appointments SET status='$status' WHERE id=$id";
+    mysqli_query($conn, $update_sql);
+    
+    header("Location: admin_appointments.php");
+    exit();
+}
+?>
+
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Appointments - Admin</title>
+    <title>Manage Appointments - Medicare Admin</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
-    <div class="navbar">
-        <a href="admin_dashboard.php" class="logo">Medicare Admin</a>
-        <div class="menu">
-            <span>Welcome, Admin</span>
-            <a href="logout.php" class="btn-login">Logout</a>
+    <div class="navbar navbar-admin">
+        <div class="brand">MEDICARE ADMIN</div>
+        <div class="user-menu">
+            <span class="admin-status-text">Logged in as Super Admin</span>
+            <a href="logout.php" class="logout-link">Logout</a>
         </div>
     </div>
 
     <div class="dashboard-container">
         
         <div class="sidebar">
-            <a href="admin_dashboard.php"><i class="fas fa-home"></i> Dashboard</a>
-            <a href="admin_doctors.php"><i class="fas fa-user-md"></i> Doctors</a>
-            <a href="admin_patients.php"><i class="fas fa-users"></i> Patients</a>
-            <a href="admin_appointments.php" class="active"><i class="fas fa-calendar-check"></i> Appointments</a>
-            <a href="admin_emergency.php"><i class="fas fa-ambulance"></i> Emergency</a>
+            <a href="admin_dashboard.php"><i class="fa fa-tachometer-alt"></i> Dashboard</a>
+            <a href="manage_doctors.php"><i class="fa fa-user-md"></i> Manage Doctors</a>
+            <a href="admin_patients.php"><i class="fa fa-users"></i> Patients List</a>
+            <a href="admin_appointments.php" class="active"><i class="fa fa-calendar-alt"></i> Appointments</a>
+            <a href="admin_emergency.php" class="link-emergency"><i class="fa fa-ambulance"></i> Emergency</a>
         </div>
 
         <div class="main-content">
-            
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <h2 style="color: #333; margin: 0;">Manage Appointments</h2>
-                </div>
+            <h2 class="page-title">Manage Appointments</h2>
 
             <div class="table-container">
                 <table>
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Patient Name</th>
-                            <th>Doctor</th>
-                            <th>Date & Time</th>
-                            <th>Status</th>
-                            <th>Actions</th>
+                            <th width="5%">ID</th>
+                            <th width="20%">Patient Name</th>
+                            <th width="20%">Doctor</th>
+                            <th width="20%">Date & Time</th>
+                            <th width="15%">Status</th>
+                            <th width="20%">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>#101</td>
-                            <td>John Doe</td>
-                            <td>Dr. Sarah Smith</td>
-                            <td>2026-01-25 <br> <small style="color:#888;">10:00 AM</small></td>
-                            <td>
-                                <span class="badge badge-Pending">Pending</span>
-                            </td>
-                            <td>
-                                <a href="approve_apt.php?id=101" class="btn-action btn-approve">Approve</a>
-                                <a href="cancel_apt.php?id=101" class="btn-action btn-cancel">Cancel</a>
-                            </td>
-                        </tr>
+                        <?php
+                        $sql = "SELECT appointments.*, users.full_name, doctors.name as doc_name 
+                                FROM appointments 
+                                JOIN users ON appointments.user_id = users.id 
+                                JOIN doctors ON appointments.doctor_id = doctors.id 
+                                ORDER BY appointments.appt_date DESC";
+                        
+                        $result = mysqli_query($conn, $sql);
 
-                        <tr>
-                            <td>#102</td>
-                            <td>Jane Roe</td>
-                            <td>Dr. Mark Wilson</td>
-                            <td>2026-01-26 <br> <small style="color:#888;">02:30 PM</small></td>
-                            <td>
-                                <span class="badge badge-Confirmed">Confirmed</span>
-                            </td>
-                            <td>
-                                <span class="status-text"><i class="fas fa-check"></i> Approved</span>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>#99</td>
-                            <td>Mike Tyson</td>
-                            <td>Dr. Sarah Smith</td>
-                            <td>2026-01-20 <br> <small style="color:#888;">09:00 AM</small></td>
-                            <td>
-                                <span class="badge" style="background:#eee; color:#666;">Cancelled</span>
-                            </td>
-                            <td>
-                                <span class="status-text">Closed</span>
-                            </td>
-                        </tr>
-
+                        if (mysqli_num_rows($result) > 0) {
+                            while ($row = mysqli_fetch_assoc($result)) {
+                                echo "<tr>";
+                                
+                                // ID
+                                echo "<td><strong>#{$row['id']}</strong></td>";
+                                
+                                // Patient
+                                echo "<td>{$row['full_name']}</td>";
+                                
+                                // Doctor
+                                echo "<td>{$row['doc_name']}</td>";
+                                
+                                // Date & Time
+                                $date_display = date("Y-m-d", strtotime($row['appt_date']));
+                                $time_display = date("h:i A", strtotime($row['appt_time']));
+                                echo "<td>
+                                        $date_display 
+                                        <span class='text-time'>$time_display</span>
+                                      </td>";
+                                
+                                // Status Badge
+                                echo "<td><span class='badge badge-{$row['status']}'>{$row['status']}</span></td>";
+                                
+                                // Actions
+                                echo "<td>";
+                                if($row['status'] == 'Pending') {
+                                    echo "<a href='admin_appointments.php?action=Confirmed&id={$row['id']}' class='btn-action btn-approve'>Approve</a> ";
+                                    echo "<a href='admin_appointments.php?action=Cancelled&id={$row['id']}' class='btn-action btn-cancel'>Cancel</a>";
+                                } elseif ($row['status'] == 'Confirmed') {
+                                    echo "<span class='status-approved'><i class='fa fa-check'></i> Approved</span>";
+                                } else {
+                                    echo "<span class='status-closed'>Closed</span>";
+                                }
+                                echo "</td>";
+                                echo "</tr>";
+                            }
+                        } else {
+                            echo "<tr><td colspan='6' class='empty-table-msg'>No appointments found.</td></tr>";
+                        }
+                        ?>
                     </tbody>
                 </table>
-            </div> </div> </div> </body>
+            </div>
+
+        </div>
+    </div>
+
+</body>
 </html>
