@@ -1,0 +1,29 @@
+/* === global.css === */
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+}
+
+/* Navbar (Used on every page) */
+.navbar {
+    background-color: #007bff;
+    padding: 15px 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.navbar-admin { background-color: #343a40 !important; } /* Admin override */
+
+.logo { color: white; font-size: 24px; font-weight: bold; text-decoration: none; text-transform: uppercase; }
+
+.menu { display: flex; align-items: center; gap: 20px; }
+.menu a { color: white; text-decoration: none; font-weight: 500; font-size: 15px; }
+
+.btn-login { background: white; color: #007bff; padding: 8px 20px; border-radius: 4px; font-weight: bold; text-decoration: none; }
+.logout-link { margin-left: 15px; }
+
+/* Helpers */
+.text-muted { color: #666; font-size: 0.9em; }

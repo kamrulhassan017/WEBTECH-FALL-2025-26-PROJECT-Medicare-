@@ -63,7 +63,8 @@ if (isset($_POST['confirm_booking'])) {
 <html>
 <head>
     <title>Book Appointment - Medicare</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../css/book_appointment.css">
+      <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>

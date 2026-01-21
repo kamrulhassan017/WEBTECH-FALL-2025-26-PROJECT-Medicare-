@@ -76,7 +76,8 @@ if (isset($_POST['save_patient'])) {
 <html>
 <head>
     <title><?php echo $edit_mode ? 'Edit Patient' : 'Add New Patient'; ?></title>
-    <link rel="stylesheet" href="style.css">
+     <link rel="stylesheet" href="../css/admin_patient_form.css">
+      <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body style="background-color: #f4f6f9;">

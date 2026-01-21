@@ -37,7 +37,8 @@ if (isset($_POST['register_btn'])) {
 <html>
 <head>
     <title>Create Account - Medicare</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../css/register.css">
+      <link rel="stylesheet" href="../css/global.css">
 </head>
 <body style="background-color: #f4f6f9;">
 

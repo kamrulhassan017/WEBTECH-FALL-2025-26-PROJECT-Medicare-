@@ -34,7 +34,8 @@ if (isset($_GET['delete'])) {
 <html>
 <head>
     <title>Manage Doctors</title>
-    <link rel="stylesheet" href="style.css">
+     <link rel="stylesheet" href="../css/manage_doctors.css">
+      <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
