@@ -90,9 +90,7 @@ The purpose of this project is to provide an online platform where patients can 
 3. Start Apache and MySQL from XAMPP Control Panel.
 4.Create a database in phpMyAdmin:
   CREATE DATABASE medicare_db;
-
 5.Import the provided SQL file into medicare_db.
-
 6.Update database credentials in db_connect.php if required.
 
 ## How to Run the Project
