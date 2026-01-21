@@ -84,6 +84,7 @@ The purpose of this project is to provide an online platform where patients can 
 1. Clone the repository:
    ```bash
  https://github.com/kamrulhassan017/WEBTECH-FALL-2025-26-PROJECT-Medicare-
+ 
 2. Move the project folder into XAMPP
    C:\xampp\htdocs\
 3. Start Apache and MySQL from XAMPP Control Panel.
