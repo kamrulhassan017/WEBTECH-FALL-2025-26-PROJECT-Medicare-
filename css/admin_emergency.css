@@ -2,30 +2,36 @@
    ADMIN EMERGENCY PAGE STYLES
    ========================================= */
 
-/* --- 1. Header & Live Indicator --- */
+/* --- 1. Page Header & Live Indicator --- */
 .page-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #dee2e6; /* Subtle divider */
 }
 
 .page-title {
     margin: 0;
-    color: #333;
+    color: #343a40; /* Dark grey like the screenshot sidebar text */
+    font-size: 24px;
+    font-weight: 600;
 }
 
+/* "Live Feed" Blinking Badge */
 .live-indicator {
     color: #dc3545;
     font-weight: 700;
     font-size: 13px;
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     background: #fff5f5;
-    padding: 5px 12px;
-    border-radius: 20px;
+    padding: 8px 16px;
+    border-radius: 50px; /* Pill shape */
     border: 1px solid #ffc9c9;
+    box-shadow: 0 2px 4px rgba(220, 53, 69, 0.1);
 }
 
 .live-indicator i {
@@ -43,45 +49,55 @@
     color: #6c757d;
     font-size: 14px;
     margin-bottom: 25px;
+    margin-top: -10px; /* Pull closer to header */
 }
 
-/* --- 2. Table Styles --- */
+/* --- 2. Table Container (Card Style) --- */
 .table-container {
     background: #ffffff;
-    border-radius: 6px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+    border-radius: 4px; /* Slightly sharper corners for admin look */
+    box-shadow: 0 0 1px rgba(0,0,0,0.125), 0 1px 3px rgba(0,0,0,0.2); /* Card-like shadow */
     overflow-x: auto;
-    border: 1px solid #eee;
+    border-top: 3px solid #007bff; /* Blue accent line at top like admin panels */
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
-    min-width: 800px;
+    min-width: 900px; 
 }
 
+/* Header */
 thead th {
     background: #f8f9fa;
     text-align: left;
     padding: 15px 20px;
     font-size: 13px;
-    font-weight: 600;
-    color: #555;
+    font-weight: 700;
+    color: #495057;
     text-transform: uppercase;
     border-bottom: 2px solid #dee2e6;
+    letter-spacing: 0.5px;
 }
 
+/* Body */
 tbody td {
-    padding: 15px 20px;
+    padding: 16px 20px;
     font-size: 14px;
     color: #333;
     border-bottom: 1px solid #f0f0f0;
     vertical-align: middle;
 }
 
+/* Row Hover Effect */
+tbody tr:hover {
+    background-color: #f1f3f5;
+}
+
 /* Critical Row Highlight */
 .row-critical {
-    background-color: #fff0f0; /* Light Red Background */
+    background-color: #fff0f0 !important; /* Soft Red */
+    border-left: 4px solid #dc3545; /* Red indicator strip on left */
 }
 .row-critical:hover {
     background-color: #ffe6e6 !important;
@@ -91,21 +107,23 @@ tbody td {
 .badge {
     padding: 5px 10px;
     border-radius: 4px;
-    font-size: 12px;
-    font-weight: 600;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
     display: inline-block;
+    letter-spacing: 0.5px;
 }
 
 /* Status Badges */
-.badge-Pending { background-color: #fff3cd; color: #856404; }
-.badge-Dispatched { background-color: #cce5ff; color: #004085; }
-.badge-Completed { background-color: #d4edda; color: #155724; }
-.badge-Cancelled { background-color: #f8d7da; color: #721c24; }
+.badge-Pending { background-color: #ffc107; color: #212529; } /* Yellow */
+.badge-Dispatched { background-color: #17a2b8; color: white; } /* Cyan */
+.badge-Completed { background-color: #28a745; color: white; } /* Green */
+.badge-Cancelled { background-color: #6c757d; color: white; } /* Grey */
 
 /* Urgency Badges */
-.badge-urgency-Critical { background-color: #dc3545; color: white; }
+.badge-urgency-Critical { background-color: #dc3545; color: white; box-shadow: 0 2px 5px rgba(220,53,69,0.4); }
 .badge-urgency-Serious  { background-color: #fd7e14; color: white; }
-.badge-urgency-Mild     { background-color: #17a2b8; color: white; }
+.badge-urgency-Mild     { background-color: #e9ecef; color: #495057; border: 1px solid #ced4da; }
 
 /* --- 4. Action Buttons --- */
 .btn-action {
@@ -118,35 +136,41 @@ tbody td {
     display: inline-block;
     transition: all 0.2s;
     cursor: pointer;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }
 
-/* Dispatch Button (Blue) */
+/* Dispatch (Primary Blue) */
 .btn-dispatch {
     background-color: #007bff;
     color: white;
     border: 1px solid #007bff;
 }
-.btn-dispatch:hover { background-color: #0056b3; }
+.btn-dispatch:hover { background-color: #0069d9; border-color: #0062cc; }
 
-/* Complete Button (Green) */
+/* Complete (Success Green) */
 .btn-complete {
     background-color: #28a745;
     color: white;
     border: 1px solid #28a745;
 }
-.btn-complete:hover { background-color: #218838; }
+.btn-complete:hover { background-color: #218838; border-color: #1e7e34; }
 
-/* Cancel Button (Red Text) */
+/* Cancel (Outline Red) */
 .btn-cancel {
     background-color: white;
     color: #dc3545;
     border: 1px solid #dc3545;
 }
-.btn-cancel:hover { background-color: #dc3545; color: white; }
+.btn-cancel:hover {
+    background-color: #dc3545;
+    color: white;
+}
 
+/* Empty State */
 .empty-row {
     text-align: center;
-    padding: 40px;
-    color: #999;
+    padding: 50px;
+    color: #adb5bd;
     font-style: italic;
+    background-color: white;
 }
