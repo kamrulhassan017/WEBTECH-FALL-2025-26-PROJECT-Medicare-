@@ -2,23 +2,56 @@
 session_start();
 include 'db_connect.php';
 
+// --- 1. AUTO-LOGIN CHECK (Cookie) ---
+// If user is NOT logged in but has a valid cookie
+if (!isset($_SESSION['user_id']) && isset($_COOKIE['medicare_user'])) {
+    $cookie_id = $_COOKIE['medicare_user'];
+    
+    // Security: Check if this user actually exists
+    // (In a real app, you would use a secure token, but this works for basic needs)
+    $auth_query = "SELECT * FROM users WHERE id='$cookie_id' LIMIT 1";
+    $auth_res = mysqli_query($conn, $auth_query);
+
+    if (mysqli_num_rows($auth_res) > 0) {
+        $row = mysqli_fetch_assoc($auth_res);
+        
+        // Restore Session
+        $_SESSION['user_id'] = $row['id'];
+        $_SESSION['user_name'] = $row['full_name'];
+        $_SESSION['role'] = $row['role'];
+
+        // Redirect based on role
+        if ($row['role'] == 'admin') {
+            header("Location: admin_dashboard.php");
+        } else {
+            header("Location: user_dashboard.php");
+        }
+        exit();
+    }
+}
+
 $error_msg = "";
 
+// --- 2. HANDLE LOGIN FORM SUBMISSION ---
 if (isset($_POST['login_btn'])) {
     $phone = mysqli_real_escape_string($conn, $_POST['phone']);
     $password = $_POST['password'];
 
     // --- DIRECT ADMIN LOGIN (BYPASS DATABASE) ---
     if ($phone == '12345' && $password == 'admin') {
-        $_SESSION['user_id'] = 1; // Assign a dummy ID
+        $_SESSION['user_id'] = 1; 
         $_SESSION['user_name'] = 'Super Admin';
         $_SESSION['role'] = 'admin';
+        
+        // Note: Cookies don't work well with hardcoded users because they have no DB ID.
+        // We skip the cookie logic for this hardcoded admin.
+        
         header("Location: admin_dashboard.php");
         exit();
     }
     // --------------------------------------------
 
-    // Standard Database Login for everyone else
+    // Standard Database Login
     $query = "SELECT * FROM users WHERE phone='$phone' LIMIT 1";
     $result = mysqli_query($conn, $query);
 
@@ -30,7 +63,16 @@ if (isset($_POST['login_btn'])) {
             $_SESSION['user_name'] = $row['full_name'];
             $_SESSION['role'] = $row['role'];
 
-            // Normal Redirect Logic
+            // --- SET REMEMBER ME COOKIE ---
+            if (isset($_POST['remember'])) {
+                // Cookie Name: 'medicare_user'
+                // Value: User ID (In production, encrypt this!)
+                // Expiry: 30 days (86400 seconds * 30)
+                // Path: "/" (Available across the whole site)
+                setcookie('medicare_user', $row['id'], time() + (86400 * 30), "/");
+            }
+
+            // Redirect Logic
             if ($row['role'] == 'admin') {
                 header("Location: admin_dashboard.php");
             } else {
@@ -52,7 +94,7 @@ if (isset($_POST['login_btn'])) {
 <head>
     <title>Sign In - Medicare</title>
     <link rel="stylesheet" href="../css/login.css">
-     <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/global.css">
 </head>
 <body>
 
@@ -84,6 +126,11 @@ if (isset($_POST['login_btn'])) {
                 <div class="form-group">
                     <label>Password</label>
                     <input type="password" name="password" placeholder="Enter password" required>
+                </div>
+
+                <div class="form-group" style="display: flex; align-items: center; gap: 8px; margin-bottom: 20px;">
+                    <input type="checkbox" name="remember" id="remember" style="width: auto;">
+                    <label for="remember" style="margin: 0; font-weight: normal; cursor: pointer;">Remember Me</label>
                 </div>
 
                 <button type="submit" name="login_btn" class="btn-login-submit">SIGN IN</button>

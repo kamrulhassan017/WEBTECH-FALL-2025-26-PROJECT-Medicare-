@@ -6,15 +6,17 @@ $msg = "";
 
 // Handle Form Submission
 if (isset($_POST['request_help'])) {
-    // Check if user is logged in (Optional: If you want guests to use it, remove this check)
+    // Check if user is logged in (using 0 for guests)
     $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 0; 
     
     $patient_name = mysqli_real_escape_string($conn, $_POST['patient_name']);
     $location = mysqli_real_escape_string($conn, $_POST['location']);
     $contact = mysqli_real_escape_string($conn, $_POST['contact']);
+    $urgency = mysqli_real_escape_string($conn, $_POST['urgency']); // NEW
 
-    $sql = "INSERT INTO ambulance_requests (user_id, patient_name, location, contact_no, status) 
-            VALUES ('$user_id', '$patient_name', '$location', '$contact', 'Pending')";
+    // Insert into DB including Urgency
+    $sql = "INSERT INTO ambulance_requests (user_id, patient_name, location, contact_no, urgency, status) 
+            VALUES ('$user_id', '$patient_name', '$location', '$contact', '$urgency', 'Pending')";
 
     if (mysqli_query($conn, $sql)) {
         $msg = "Request Sent! An ambulance is being dispatched.";
@@ -29,7 +31,7 @@ if (isset($_POST['request_help'])) {
 <head>
     <title>Emergency Service - Medicare</title>
     <link rel="stylesheet" href="../css/emergency.css">
-       <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body style="background-color: #f4f6f9;">
@@ -90,6 +92,15 @@ if (isset($_POST['request_help'])) {
                 <div class="form-group">
                     <label>Contact Number</label>
                     <input type="text" name="contact" placeholder="Enter mobile number" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Urgency Level</label>
+                    <select name="urgency" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                        <option value="Mild">Mild (Non-Life Threatening)</option>
+                        <option value="Serious">Serious (Needs Quick Attention)</option>
+                        <option value="Critical" style="color:red; font-weight:bold;">Critical (Life Threatening)</option>
+                    </select>
                 </div>
 
                 <button type="submit" name="request_help" class="btn-emergency-submit">
