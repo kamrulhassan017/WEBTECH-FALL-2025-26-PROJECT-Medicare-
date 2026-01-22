@@ -2,7 +2,7 @@
 session_start();
 include 'db_connect.php';
 
-// 1. Security: Check Login
+// 1. Security Check
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit();
@@ -10,27 +10,23 @@ if (!isset($_SESSION['user_id'])) {
 
 $uid = (int)$_SESSION['user_id'];
 
-// 2. Handle Cancellation (Only for Pending appointments)
+// 2. Handle Cancellation
 if (isset($_GET['cancel']) && is_numeric($_GET['cancel'])) {
     $aid = (int)$_GET['cancel'];
-
-    // Security Check: Ensure appointment belongs to this user and is Pending
+    // Only allow cancelling Pending appointments belonging to this user
     $chk = mysqli_query($conn, "SELECT id FROM appointments WHERE id=$aid AND user_id=$uid AND status='Pending' LIMIT 1");
     
     if ($chk && mysqli_num_rows($chk) == 1) {
         mysqli_query($conn, "UPDATE appointments SET status='Cancelled' WHERE id=$aid");
     }
-
-    // Refresh page to show update
     header("Location: my_appointments.php");
     exit();
 }
 
-// 3. Handle Filters
+// 3. Handle Filters (Optional)
 $status_filter = isset($_GET['status']) ? mysqli_real_escape_string($conn, $_GET['status']) : "";
 $date_filter   = isset($_GET['date']) ? mysqli_real_escape_string($conn, $_GET['date']) : "";
 
-// Build SQL Query
 $where_clause = "WHERE a.user_id = $uid";
 
 if ($status_filter != "") {
@@ -40,7 +36,8 @@ if ($date_filter != "") {
     $where_clause .= " AND a.appt_date = '$date_filter'";
 }
 
-$sql = "SELECT a.*, d.name AS doctor_name
+// 4. Fetch Appointments (Ensure 'appt_time' is selected)
+$sql = "SELECT a.*, d.name AS doctor_name, d.specialty 
         FROM appointments a
         JOIN doctors d ON a.doctor_id = d.id
         $where_clause
@@ -56,10 +53,8 @@ $result = mysqli_query($conn, $sql);
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <link rel="stylesheet" href="../css/global.css">
-    
     <link rel="stylesheet" href="../css/dashboard.css">
-    
-    <link rel="stylesheet" href="css/my_appointments.css">
+    <link rel="stylesheet" href="../css/my_appointments.css">
 </head>
 <body>
 
@@ -83,16 +78,17 @@ $result = mysqli_query($conn, $sql);
 
         <div class="main-content">
 
-            <h2 class="page-title">My Appointments</h2>
-            <p class="text-muted" style="margin-bottom: 25px;">Track your upcoming and past appointments.</p>
+            <div class="page-header">
+                <h2 class="page-title">My Appointments</h2>
+                <p class="text-muted">Track your upcoming and past visits.</p>
+            </div>
 
             <div class="filter-card">
                 <form method="GET" class="filter-form">
-                    
                     <div class="filter-group">
-                        <label>Filter by Status</label>
+                        <label>Status</label>
                         <select name="status">
-                            <option value="">All Statuses</option>
+                            <option value="">All</option>
                             <option value="Pending"   <?php if($status_filter=="Pending") echo "selected"; ?>>Pending</option>
                             <option value="Confirmed" <?php if($status_filter=="Confirmed") echo "selected"; ?>>Confirmed</option>
                             <option value="Cancelled" <?php if($status_filter=="Cancelled") echo "selected"; ?>>Cancelled</option>
@@ -101,14 +97,13 @@ $result = mysqli_query($conn, $sql);
                     </div>
 
                     <div class="filter-group">
-                        <label>Filter by Date</label>
+                        <label>Date</label>
                         <input type="date" name="date" value="<?php echo htmlspecialchars($date_filter); ?>">
                     </div>
 
                     <button type="submit" class="btn-login filter-btn" style="background: #007bff; color: white; border: none;">
-                        <i class="fa fa-filter"></i> Apply
+                        Apply Filters
                     </button>
-
                     <a href="my_appointments.php" class="reset-btn">Reset</a>
                 </form>
             </div>
@@ -118,8 +113,7 @@ $result = mysqli_query($conn, $sql);
                     <thead>
                         <tr>
                             <th width="15%">Date</th>
-                            <th width="15%">Time</th>
-                            <th width="25%">Doctor</th>
+                            <th width="15%">Time</th> <th width="30%">Doctor</th>
                             <th width="15%">Status</th>
                             <th width="15%">Action</th>
                         </tr>
@@ -129,15 +123,29 @@ $result = mysqli_query($conn, $sql);
                         if ($result && mysqli_num_rows($result) > 0) {
                             while ($row = mysqli_fetch_assoc($result)) {
                                 
-                                // Formatting Dates
+                                // 1. Format Date
                                 $date_display = date("M d, Y", strtotime($row['appt_date']));
-                                $time_display = date("h:i A", strtotime($row['appt_time']));
+                                
+                                // 2. Format Time (This shows the time you booked)
+                                $time_display = date("h:i A", strtotime($row['appt_time'])); 
+                                
                                 $status = $row['status'];
                                 
                                 echo "<tr>";
+                                
+                                // Date Column
                                 echo "<td>$date_display</td>";
-                                echo "<td>$time_display</td>";
-                                echo "<td><strong>{$row['doctor_name']}</strong></td>";
+                                
+                                // Time Column (Highlighting the time)
+                                echo "<td><span style='font-weight:600; color:#555;'>$time_display</span></td>";
+                                
+                                // Doctor Column
+                                echo "<td>
+                                        <strong>{$row['doctor_name']}</strong><br>
+                                        <small style='color:#007bff;'>{$row['specialty']}</small>
+                                      </td>";
+                                
+                                // Status Column
                                 echo "<td><span class='badge badge-$status'>$status</span></td>";
                                 
                                 // Action Column
@@ -148,14 +156,17 @@ $result = mysqli_query($conn, $sql);
                                              onclick=\"return confirm('Are you sure you want to cancel this appointment?');\">
                                              Cancel
                                           </a>";
+                                } elseif ($status === 'Confirmed') {
+                                    echo "<span style='color:#28a745; font-size:13px;'><i class='fa fa-check-circle'></i> Booked</span>";
                                 } else {
                                     echo "<span class='text-muted'>-</span>";
                                 }
                                 echo "</td>";
+                                
                                 echo "</tr>";
                             }
                         } else {
-                            echo "<tr><td colspan='5' class='empty-row'>No appointments found matching your filters.</td></tr>";
+                            echo "<tr><td colspan='5' class='empty-row'>No appointments found.</td></tr>";
                         }
                         ?>
                     </tbody>
