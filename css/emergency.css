@@ -1,25 +1,213 @@
-/* === emergency.css === */
-.emergency-hero {
-    background-color: #dc3545; color: white; text-align: center; padding: 60px 20px 100px;
-}
-.emergency-hero h1 { font-size: 48px; margin: 10px 0; font-weight: bold; text-transform: uppercase; }
-.emergency-hero p { font-size: 18px; opacity: 0.9; margin-bottom: 30px; }
-.btn-call-now {
-    background-color: white; color: #dc3545; padding: 15px 40px;
-    font-size: 24px; font-weight: bold; border-radius: 50px; text-decoration: none;
-    display: inline-block; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: transform 0.2s;
-}
-.btn-call-now:hover { transform: scale(1.05); }
+/* ================================
+   EMERGENCY SERVICE – MEDICARE
+   ================================ */
 
+:root {
+    --danger: #dc3545;
+    --danger-dark: #c82333;
+    --light: #007bff;
+    --gray-bg:#007bff;
+    --text-dark: #333;
+}
+
+/* ===== GLOBAL ===== */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background-color: var(--gray-bg);
+    color: var(--text-dark);
+}
+
+/* ===== NAVBAR ===== */
+.navbar {
+    background: #fff;
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+}
+
+.navbar .logo {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--danger);
+    text-decoration: none;
+    letter-spacing: 1px;
+}
+
+.navbar .menu a {
+    margin-left: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    color: #444;
+}
+
+.navbar .menu a:hover {
+    color: var(--danger);
+}
+
+.btn-login {
+    padding: 8px 18px;
+    background: var(--danger);
+    color: #fff !important;
+    border-radius: 30px;
+}
+
+/* ===== HERO SECTION ===== */
+.emergency-hero {
+    background: linear-gradient(135deg, #dc3545, #b02a37);
+    color: #fff;
+    text-align: center;
+    padding: 80px 20px 120px;
+}
+
+.emergency-icon {
+    font-size: 50px;
+    margin-bottom: 15px;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+    100% { transform: scale(1); }
+}
+
+.emergency-hero h1 {
+    font-size: 42px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+}
+
+.emergency-hero p {
+    font-size: 17px;
+    opacity: 0.95;
+    margin-bottom: 35px;
+}
+
+/* ===== CALL BUTTON ===== */
+.btn-call-now {
+    background: #fff;
+    color: var(--danger);
+    padding: 16px 45px;
+    font-size: 22px;
+    font-weight: 700;
+    border-radius: 50px;
+    text-decoration: none;
+    display: inline-block;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    transition: all 0.25s ease;
+}
+
+.btn-call-now:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+}
+
+/* ===== FORM CONTAINER ===== */
 .emergency-form-container {
-    max-width: 600px; margin: -60px auto 50px; background: white;
-    border-radius: 8px; box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-    overflow: hidden; border-top: 5px solid #c82333; width: 90%;
+    max-width: 600px;
+    margin: -80px auto 60px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    overflow: hidden;
+    border-top: 6px solid var(--danger);
 }
-.form-header { padding: 20px 30px; border-bottom: 1px solid #eee; }
-.form-body { padding: 30px; }
+
+/* ===== FORM HEADER ===== */
+.form-header {
+    padding: 25px 30px;
+    background: #fff5f6;
+    border-bottom: 1px solid #eee;
+}
+
+.form-header h3 {
+    margin: 0;
+    font-size: 22px;
+    color: var(--danger);
+    font-weight: 700;
+}
+
+/* ===== FORM BODY ===== */
+.form-body {
+    padding: 30px;
+}
+
+.form-group {
+    margin-bottom: 22px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 15px;
+}
+
+/* ===== BIG & AUTHENTIC INPUTS ===== */
+.form-group input {
+    width: 100%;
+    padding: 16px 18px;
+    font-size: 16px;
+    border-radius: 6px;
+    border: 1.5px solid #ddd;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-group input::placeholder {
+    color: #999;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--danger);
+    box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.15);
+}
+
+/* ===== SUBMIT BUTTON ===== */
 .btn-emergency-submit {
-    background-color: #dc3545; color: white; width: 100%; padding: 12px;
-    border: none; border-radius: 4px; font-size: 16px; font-weight: bold; cursor: pointer;
+    width: 100%;
+    background: var(--danger);
+    color: #fff;
+    padding: 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.1s ease;
 }
-.btn-emergency-submit:hover { background-color: #c82333; }
+
+.btn-emergency-submit:hover {
+    background: var(--danger-dark);
+    transform: translateY(-1px);
+}
+
+/* ===== SUCCESS MESSAGE ===== */
+.form-body div {
+    font-size: 14px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 600px) {
+    .navbar {
+        padding: 15px 20px;
+    }
+
+    .emergency-hero h1 {
+        font-size: 32px;
+    }
+
+    .btn-call-now {
+        font-size: 18px;
+        padding: 14px 32px;
+    }
+}

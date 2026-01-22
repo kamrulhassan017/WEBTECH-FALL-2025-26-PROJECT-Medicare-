@@ -1,105 +1,200 @@
-.nav-title {
-    color: white;
-    font-weight: 500;
-}
+/* =========================================
+   MY APPOINTMENTS SPECIFIC STYLES
+   ========================================= */
 
-.nav-title i {
-    margin-left: 5px;
-}
-
-.nav-logout {
-    margin-left: 20px;
-    color: white;
-    opacity: 0.9;
-    text-decoration: none;
-}
-
-.nav-logout:hover {
-    opacity: 1;
-}
-
-
-.danger-link {
-    color: #dc3545 !important;
-}
-
-
+/* --- 1. Page Header --- */
 .page-title {
     margin-top: 0;
     color: #333;
+    font-size: 24px;
+    font-weight: 600;
 }
 
-.page-subtitle {
-    color: #666;
+.text-muted {
+    color: #6c757d;
+    font-size: 14px;
+    margin-bottom: 25px;
 }
 
-
+/* --- 2. Filter Section (Themed) --- */
 .filter-card {
-    background: #fff;
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 15px;
-    border: 1px solid #eee;
+    background: #ffffff;
+    padding: 20px 25px;
+    border-radius: 6px;
+    margin-bottom: 25px;
+    border-top: 3px solid #007bff; /* Blue top border accent */
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
 }
 
 .filter-form {
     display: flex;
-    gap: 12px;
+    gap: 20px;
     flex-wrap: wrap;
-    align-items: end;
+    align-items: flex-end; 
 }
 
 .filter-group {
-    min-width: 220px;
+    flex: 1;
+    min-width: 200px;
 }
 
+/* Label Styling */
 .filter-group label {
     display: block;
-    margin-bottom: 6px;
-    color: #444;
+    margin-bottom: 8px;
+    color: #555;
+    font-weight: 600;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
+/* Inputs (Select & Date) */
 .filter-group select,
 .filter-group input[type="date"] {
     width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
+    height: 40px; /* Fixed height for alignment */
+    padding: 6px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 14px;
+    background-color: #fff;
+    color: #495057;
+    transition: border-color 0.15s ease-in-out;
+    cursor: pointer;
 }
 
+.filter-group select:hover,
+.filter-group input[type="date"]:hover {
+    border-color: #b3b3b3;
+}
 
+.filter-group select:focus,
+.filter-group input[type="date"]:focus {
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* --- 3. Action Buttons (Book & Reset) --- */
+
+/* Book Appointment Button (Blue) */
 .filter-btn {
-    height: 42px;
-}
-
-.reset-btn {
-    height: 42px;
+    height: 40px;
+    padding: 0 20px;
     display: inline-flex;
     align-items: center;
-    padding: 0 14px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    transition: background 0.2s;
+    white-space: nowrap; /* Prevents text wrapping */
+}
+
+.filter-btn:hover {
+    background-color: #0056b3;
+    color: white;
+}
+
+/* Reset Icon Button (Red Outline) */
+.reset-btn {
+    height: 40px;
+    width: 40px; /* Square shape for icon */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #dc3545;
+    background: white;
+    color: #dc3545;
     text-decoration: none;
-    color: #333;
-    background: #f8f9fa;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: all 0.2s;
 }
 
 .reset-btn:hover {
-    background: #f1f3f5;
+    background: #dc3545;
+    color: white;
 }
 
+/* --- 4. Table Styling --- */
+.table-container {
+    background: #ffffff;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+    overflow-x: auto;
+    border: 1px solid #eee;
+}
 
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 700px;
+}
+
+thead th {
+    background: #f8f9fa;
+    text-align: left;
+    padding: 15px 20px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #555;
+    text-transform: uppercase;
+    border-bottom: 2px solid #dee2e6;
+}
+
+tbody td {
+    padding: 15px 20px;
+    font-size: 14px;
+    color: #333;
+    border-bottom: 1px solid #f0f0f0;
+    vertical-align: middle;
+}
+
+tbody tr:hover {
+    background-color: #fafafa;
+}
+
+/* --- 5. Status Badges --- */
+.badge {
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    display: inline-block;
+    letter-spacing: 0.5px;
+}
+
+.badge-Pending { background-color: #fff3cd; color: #856404; }
+.badge-Confirmed { background-color: #d4edda; color: #155724; }
+.badge-Cancelled { background-color: #f8d7da; color: #721c24; }
+.badge-Completed { background-color: #e2e3e5; color: #383d41; }
+
+/* Cancel Link in Table */
 .cancel-link {
     color: #dc3545;
+    border: 1px solid #dc3545;
+    padding: 4px 12px;
+    border-radius: 4px;
     text-decoration: none;
+    font-size: 12px;
     font-weight: 600;
+    transition: all 0.2s;
+    display: inline-block;
 }
 
 .cancel-link:hover {
-    text-decoration: underline;
+    background-color: #dc3545;
+    color: white;
 }
 
 .empty-row {
     text-align: center;
-    padding: 20px;
+    padding: 40px;
+    color: #999;
+    font-style: italic;
 }

@@ -46,7 +46,9 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
             <a href="manage_doctors.php"><i class="fa fa-user-md"></i> Manage Doctors</a>
             <a href="admin_patients.php"><i class="fa fa-users"></i> Patients List</a>
             <a href="admin_appointments.php" class="active"><i class="fa fa-calendar-alt"></i> Appointments</a>
-            <a href="admin_emergency.php" class="link-emergency"><i class="fa fa-ambulance"></i> Emergency</a>
+          <a href="admin_emergency.php" class="link-emergency">
+    <i class="fa fa-ambulance"></i> Emergency
+</a>
         </div>
 
         <div class="main-content">
