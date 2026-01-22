@@ -38,7 +38,6 @@
     min-width: 200px;
 }
 
-/* Label Styling */
 .filter-group label {
     display: block;
     margin-bottom: 8px;
@@ -49,7 +48,7 @@
     letter-spacing: 0.5px;
 }
 
-/* Inputs (Select & Date) */
+/* Uniform Input Styling */
 .filter-group select,
 .filter-group input[type="date"] {
     width: 100%;
@@ -61,12 +60,6 @@
     background-color: #fff;
     color: #495057;
     transition: border-color 0.15s ease-in-out;
-    cursor: pointer;
-}
-
-.filter-group select:hover,
-.filter-group input[type="date"]:hover {
-    border-color: #b3b3b3;
 }
 
 .filter-group select:focus,
@@ -76,9 +69,13 @@
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
-/* --- 3. Action Buttons (Book & Reset) --- */
+/* Buttons Container */
+.filter-actions {
+    display: flex;
+    gap: 10px;
+}
 
-/* Book Appointment Button (Blue) */
+/* Apply Filter Button (Blue) */
 .filter-btn {
     height: 40px;
     padding: 0 20px;
@@ -87,32 +84,32 @@
     gap: 8px;
     font-size: 14px;
     font-weight: 600;
+    cursor: pointer;
     border-radius: 4px;
     background-color: #007bff;
     color: white;
     border: none;
     transition: background 0.2s;
-    white-space: nowrap; /* Prevents text wrapping */
 }
 
 .filter-btn:hover {
     background-color: #0056b3;
-    color: white;
 }
 
-/* Reset Icon Button (Red Outline) */
+/* Reset Button (Red Outline - Distinct from Apply) */
 .reset-btn {
     height: 40px;
-    width: 40px; /* Square shape for icon */
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid #dc3545;
+    padding: 0 15px;
+    border: 1px solid #dc3545; /* Red Border */
     background: white;
-    color: #dc3545;
+    color: #dc3545; /* Red Text */
     text-decoration: none;
     border-radius: 4px;
     font-size: 14px;
+    font-weight: 600;
     transition: all 0.2s;
 }
 
@@ -121,7 +118,7 @@
     color: white;
 }
 
-/* --- 4. Table Styling --- */
+/* --- 3. Table Styling --- */
 .table-container {
     background: #ffffff;
     border-radius: 6px;
@@ -159,7 +156,7 @@ tbody tr:hover {
     background-color: #fafafa;
 }
 
-/* --- 5. Status Badges --- */
+/* --- 4. Badges & Buttons --- */
 .badge {
     padding: 5px 10px;
     border-radius: 4px;
@@ -174,7 +171,6 @@ tbody tr:hover {
 .badge-Cancelled { background-color: #f8d7da; color: #721c24; }
 .badge-Completed { background-color: #e2e3e5; color: #383d41; }
 
-/* Cancel Link in Table */
 .cancel-link {
     color: #dc3545;
     border: 1px solid #dc3545;

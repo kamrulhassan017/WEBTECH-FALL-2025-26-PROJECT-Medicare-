@@ -154,7 +154,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `full_name`, `phone`, `password`, `blood_group`, `gender`, `dob`, `medical_history`, `role`, `created_at`) VALUES
-(1, 'Super Admin', '0000', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, 'admin', '2026-01-20 14:42:55'),
+(1, '', '0000', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, NULL, 'admin', '2026-01-20 14:42:55'),
 (4, 'Sabbir', '013', '$2y$10$K4fzQDY/5K4U/b35qvcfreSMioLG9rBI3h/KM6pHurxDGHrjq0F92', 'A+', 'Male', '2026-01-22', NULL, 'user', '2026-01-21 14:19:59');
 
 --

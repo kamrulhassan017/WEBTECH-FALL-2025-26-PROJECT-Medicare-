@@ -8,7 +8,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     exit();
 }
 
-// 2. Handle Actions (Dispatch, Complete, Cancel)
+// 2. Handle Actions
 if (isset($_GET['action']) && isset($_GET['id'])) {
     $id = (int)$_GET['id'];
     $action = $_GET['action'];
@@ -36,14 +36,20 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
     <title>Manage Emergency - Admin</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
-    <link rel="stylesheet" href="../css/admin_emergency.css">
-    <link rel="stylesheet" href="../css/admin_dashboard.css">
+    
+    
+     <link rel="stylesheet" href="../css/admin_dashboard.css">
+     <link rel="stylesheet" href="../css/global.css">
+ <link rel="stylesheet" href="../css/admin_emergency.css">
+
+    
 </head>
 <body>
 
     <div class="navbar">
         <a href="admin_dashboard.php" class="logo">MEDICARE ADMIN</a>
         <div class="menu">
+            <a href="admin_dashboard.php">Dashboard</a>
             <a href="logout.php" class="btn-login" style="background:transparent; border:1px solid white; color:white;">Logout</a>
         </div>
     </div>
@@ -78,14 +84,75 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
                             <th width="20%">Action</th>
                         </tr>
                     </thead>
-                    <tbody id="emergencyTableBody">
+                    <tbody>
+                        <?php
+                        // Fetch requests, prioritizing 'Pending' first
+                        
+                        
+                        $sql = "SELECT * FROM ambulance_requests ORDER BY 
+                                CASE WHEN status = 'Pending' THEN 1 ELSE 2 END, 
+                                request_time DESC";
+                        $result = mysqli_query($conn, $sql);
+
+                        if (mysqli_num_rows($result) > 0) {
+                            while ($row = mysqli_fetch_assoc($result)) {
+                                $status = $row['status'];
+                                // Safe check: If 'urgency' column is missing in DB, default to 'Mild' to prevent errors
+                                $urgency = isset($row['urgency']) ? $row['urgency'] : 'Mild';
+                                
+                                // Logic: Highlight row Red if Critical AND Pending
+                                $row_class = ($urgency == 'Critical' && $status == 'Pending') ? 'row-critical' : '';
+
+                                echo "<tr class='$row_class'>";
+                                
+                                // 1. Patient Info
+                                echo "<td>
+                                        <strong>{$row['patient_name']}</strong><br>
+                                        <small style='color:#888;'>Requested: " . date("h:i A, M d", strtotime($row['request_time'])) . "</small>
+                                      </td>";
+                                
+                                // 2. Contact & Location
+                                echo "<td>
+                                        <div style='margin-bottom:5px;'>
+                                            <i class='fa fa-phone-alt' style='color:#007bff; width:15px;'></i> {$row['contact_no']}
+                                        </div>
+                                        <div>
+                                            <i class='fa fa-map-marker-alt' style='color:#dc3545; width:15px;'></i> {$row['location']}
+                                        </div>
+                                      </td>";
+                                
+                                // 3. Urgency Badge
+                                echo "<td><span class='badge badge-urgency-$urgency'>$urgency</span></td>";
+
+                                // 4. Status Badge
+                                echo "<td><span class='badge badge-$status'>$status</span></td>";
+                                
+                                // 5. Action Buttons
+                                echo "<td>";
+                                if ($status == 'Pending') {
+                                    echo "<a href='admin_emergency.php?action=dispatch&id={$row['id']}' class='btn-action btn-dispatch'>Dispatch</a>";
+                                    echo "<a href='admin_emergency.php?action=cancel&id={$row['id']}' class='btn-action btn-cancel' onclick='return confirm(\"Reject this request?\")'>Cancel</a>";
+                                } elseif ($status == 'Dispatched') {
+                                    echo "<a href='admin_emergency.php?action=complete&id={$row['id']}' class='btn-action btn-complete'>Complete</a>";
+                                } else {
+                                    echo "<span style='color:#aaa;'>-</span>";
+                                }
+                                echo "</td>";
+                                
+                                echo "</tr>";
+                            }
+                        } else {
+                            echo "<tr><td colspan='5' class='empty-row'>No emergency requests found.</td></tr>";
+                        }
+                        ?>
+                        <tbody id="emergencyTableBody">
+    </tbody>
                     </tbody>
                 </table>
             </div>
 
         </div>
     </div>
-
 <script>
     // Function to fetch JSON data
     function loadEmergencyRequests() {
@@ -113,7 +180,7 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
                             actions = `<span style='color:#aaa;'>-</span>`;
                         }
 
-                        // Build the HTML Row
+                        // Build the HTML Row using Template Literals (Backticks)
                         html += `
                             <tr class="${rowClass}">
                                 <td>
@@ -136,18 +203,17 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
                     });
                 }
 
-                // Inject generated HTML into table
+              
                 tableBody.innerHTML = html;
             })
             .catch(error => console.error('Error fetching data:', error));
     }
 
-    // Load immediately
+    \
     loadEmergencyRequests();
 
-    // Refresh every 3 seconds
+
     setInterval(loadEmergencyRequests, 3000);
 </script>
-
 </body>
 </html>

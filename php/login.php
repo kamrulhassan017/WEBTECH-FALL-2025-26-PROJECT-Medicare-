@@ -52,7 +52,7 @@ if (isset($_POST['login_btn'])) {
 <head>
     <title>Sign In - Medicare</title>
     <link rel="stylesheet" href="../css/login.css">
-      <link rel="stylesheet" href="../css/global.css">
+     <link rel="stylesheet" href="../css/global.css">
 </head>
 <body>
 

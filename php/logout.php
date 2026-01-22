@@ -1,13 +1,15 @@
 <?php
 session_start();
 
-// 1. Unset all session variables
+// Clear Session
 session_unset();
-
-// 2. Destroy the session completely
 session_destroy();
 
-// 3. Redirect to Login Page
+// Delete Cookie
+if (isset($_COOKIE['medicare_user'])) {
+    setcookie('medicare_user', '', time() - 3600, '/');
+}
+
 header("Location: login.php");
 exit();
 ?>

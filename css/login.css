@@ -1,43 +1,176 @@
-/* === login.css === */
-.login-container {
+/* =========================================
+   LOGIN & REGISTER PAGE STYLES
+   ========================================= */
+
+/* 1. Page Background */
+body {
+    /* Professional Blue Gradient */
+    background: linear-gradient(135deg, #0061f2 0%, #6900f2 100%);
+    min-height: 100vh;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+}
+
+/* 2. Layout Container */
+.login-container {
+    flex: 1;
+    display: flex;
     align-items: center;
-    min-height: calc(100vh - 80px);
+    justify-content: center;
     padding: 20px;
 }
 
+/* 3. Login Box (The Card) */
 .login-box {
-    background: white;
-    padding: 40px 50px;
+    background: #ffffff;
     width: 100%;
-    max-width: 400px; /* Narrower for login */
-    border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    max-width: 400px;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); /* Soft shadow */
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.login-box:hover {
+    transform: translateY(-5px); /* Subtle lift on hover */
+}
+
+/* Typography */
+.login-box h2 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #333;
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.login-box p {
+    color: #666;
+    margin-bottom: 30px;
+    font-size: 14px;
+}
+
+/* 4. Form Groups */
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Inputs */
+.form-group input[type="text"],
+.form-group input[type="password"], 
+.form-group input[type="email"] {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 15px;
+    background-color: #f9f9f9;
+    transition: all 0.3s ease;
+    box-sizing: border-box; 
+}
+
+/* Input Focus State */
+.form-group input:focus {
+    background-color: #fff;
+    border-color: #007bff;
+    box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.1);
+    outline: none;
+}
+
+/* Checkbox (Remember Me) */
+input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    accent-color: #007bff; 
+}
+
+/* 5. Submit Button */
+.btn-login-submit {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(to right, #007bff, #0056b3);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+    box-shadow: 0 4px 6px rgba(0, 123, 255, 0.2);
+}
+
+.btn-login-submit:hover {
+    background: linear-gradient(to right, #0056b3, #004085);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 8px rgba(0, 123, 255, 0.3);
+}
+
+.btn-login-submit:active {
+    transform: translateY(1px);
+}
+
+/* 6. Links (Register / Forgot Pass) */
+.links {
+    margin-top: 25px;
+    font-size: 14px;
+    color: #666;
+    line-height: 1.6;
+}
+
+.links a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s;
+}
+
+.links a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+/* 7. Error & Success Messages */
+.error-msg {
+    background-color: #fee2e2;
+    color: #b91c1c;
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid #fecaca;
+    font-size: 14px;
+    margin-bottom: 20px;
     text-align: center;
 }
 
-.login-box h2 { margin: 0 0 10px 0; color: #333; }
-.login-box p { color: #777; font-size: 14px; margin-bottom: 30px; }
-
-.btn-login-submit {
-    width: 100%;
-    padding: 12px;
-    background: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 20px;
-    transition: background 0.2s;
+/* Navbar Tweaks */
+.navbar {
+    background: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
-.btn-login-submit:hover { background: #0056b3; }
 
-.form-group { text-align: left; margin-bottom: 15px; }
-.form-group label { display: block; font-weight: bold; font-size: 14px; color: #333; margin-bottom: 5px; }
-.form-group input { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; }
-
-.links { margin-top: 20px; font-size: 14px; }
-.links a { color: #007bff; text-decoration: none; }
+.navbar .logo {
+    font-weight: 800;
+    font-size: 20px;
+    color: #007bff;
+    text-decoration: none;
+    letter-spacing: 1px;
+}
